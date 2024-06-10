@@ -1,69 +1,52 @@
-function dijkstra(graph, start) {
-
-    const distances = {};
-    for (let vertex in graph) {
-        distances[vertex] = Infinity;
+// Define Gymnasium entity
+class Gymnasium {
+    constructor(gymnasiumId, name, address, telephoneNumber) {
+        this.gymnasiumId = gymnasiumId;
+        this.name = name;
+        this.address = address;
+        this.telephoneNumber = telephoneNumber;
     }
-    distances[start] = 0;
-
-
-    const pq = new PriorityQueue();
-    pq.enqueue(start, 0);
-
-
-    const visited = new Set();
-
-    while (!pq.isEmpty()) {
-        const { vertex: currentVertex, priority: currentDistance } = pq.dequeue();
-
-
-        if (visited.has(currentVertex)) continue;
-
-
-        visited.add(currentVertex);
-
-
-        for (let neighbor in graph[currentVertex]) {
-            const distance = graph[currentVertex][neighbor];
-            const newDistance = currentDistance + distance;
-
-            // Only consider this new path if it's better
-            if (newDistance < distances[neighbor]) {
-                distances[neighbor] = newDistance;
-                pq.enqueue(neighbor, newDistance);
-            }
-        }
+  }
+  
+  // Define Member entity
+  class Member {
+    constructor(memberId, lastName, firstName, address, dateOfBirth, gender, gymnasiumId) {
+        this.memberId = memberId;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.gymnasiumId = gymnasiumId;
     }
-
-    return distances;
-}
-
-class PriorityQueue {
-    constructor() {
-        this.collection = [];
+  }
+  
+  // Define Session entity
+  class Session {
+    constructor(sessionId, sport, schedule, maxCapacity, gymnasiumId) {
+        this.sessionId = sessionId;
+        this.sport = sport;
+        this.schedule = schedule;
+        this.maxCapacity = maxCapacity;
+        this.gymnasiumId = gymnasiumId;
     }
-
-    enqueue(vertex, priority) {
-        this.collection.push({ vertex, priority });
-        this.collection.sort((a, b) => a.priority - b.priority);
+  }
+  
+  // Define Coach entity
+  class Coach {
+    constructor(coachId, lastName, firstName, age, specialty) {
+        this.coachId = coachId;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.age = age;
+        this.specialty = specialty;
     }
-
-    dequeue() {
-        return this.collection.shift();
+  }
+  
+  // Define SessionCoach entity (for the many-to-many relationship between Session and Coach)
+  class SessionCoach {
+    constructor(sessionId, coachId) {
+        this.sessionId = sessionId;
+        this.coachId = coachId;
     }
-
-    isEmpty() {
-        return this.collection.length === 0;
-    }
-}
-
-
-const graph = {
-    'A': { 'B': 4, 'C': 2 },
-    'B': { 'A': 4, 'C': 5, 'D': 10 },
-    'C': { 'A': 2, 'B': 5, 'D': 3 },
-    'D': { 'B': 10, 'C': 3 }
-};
-
-const result = dijkstra(graph, 'A');
-console.log(result);  
+  }
