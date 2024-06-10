@@ -1,28 +1,28 @@
 function dijkstra(graph, start) {
-    // Initialize distances with "Infinity", except for the start node
+
     const distances = {};
     for (let vertex in graph) {
         distances[vertex] = Infinity;
     }
     distances[start] = 0;
 
-    // Priority queue (min-heap)
+
     const pq = new PriorityQueue();
     pq.enqueue(start, 0);
 
-    // Set of visited nodes
+
     const visited = new Set();
 
     while (!pq.isEmpty()) {
         const { vertex: currentVertex, priority: currentDistance } = pq.dequeue();
 
-        // If the vertex has been visited, skip it
+
         if (visited.has(currentVertex)) continue;
 
-        // Mark the current node as visited
+
         visited.add(currentVertex);
 
-        // Update the distances to the neighboring nodes
+
         for (let neighbor in graph[currentVertex]) {
             const distance = graph[currentVertex][neighbor];
             const newDistance = currentDistance + distance;
@@ -38,7 +38,6 @@ function dijkstra(graph, start) {
     return distances;
 }
 
-// Priority Queue implementation
 class PriorityQueue {
     constructor() {
         this.collection = [];
@@ -58,7 +57,7 @@ class PriorityQueue {
     }
 }
 
-// Example usage:
+
 const graph = {
     'A': { 'B': 4, 'C': 2 },
     'B': { 'A': 4, 'C': 5, 'D': 10 },
@@ -67,4 +66,4 @@ const graph = {
 };
 
 const result = dijkstra(graph, 'A');
-console.log(result);  // { A: 0, B: 4, C: 2, D: 5 }
+console.log(result);  
